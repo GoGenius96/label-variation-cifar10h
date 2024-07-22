@@ -28,7 +28,7 @@ cifar10h <- cifar10h %>%
     true_label = factor(true_label, levels = c(0:9)),
     chosen_label = factor(chosen_label, levels = c(0:9))
   ) %>%
-  select(-c(cifar10_test_test_idx, image_filename))
+  dplyr::select(-cifar10_test_test_idx)
 ```
 
 # Data Description
@@ -52,6 +52,7 @@ cifar10h %>%
     true_label = md("**true_label**,<br>fac\\w10lvl"),
     chosen_label = md("**chosen_label**,<br>fac\\w10lvl"),
     correct_guess = md("**correct_guess**,<br>boolean"),
+    image_filename = md("**image_filename**,<br>chr"),
     subcategory = md("**subcategory**,<br>chr"),
     reaction_time = md("**reaction_time**,<br>dbl"),
     time_elapsed = md("**time_elapsed**,<br>dbl")
@@ -84,6 +85,7 @@ prop.table(table(cifar10h$true_category, cifar10h$chosen_category), margin = 1) 
     x = "Chosen Category",
     fill = "Proportion"
   ) + 
+  scale_y_discrete(limits = rev) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   # add the value of the proportion on the tile
   geom_text(aes(label = scales::percent(round(Freq, 3))), size = 3) +
@@ -175,6 +177,170 @@ hist(inverse_boxcox(transformed_data, lambda), breaks = 50, main = "Histogram of
 # Q-Q plot of the transformed data
 qqnorm(transformed_data)
 qqline(transformed_data, col = "blue")
+
+```
+
+# Daten untersuchen und transformieren
+
+```{r}
+# how often was every image labeled?
+cifar10h %>%
+  group_by(trial_index) %>%
+  summarise(n = n())
+```
+
+## In nötiges Format für EM-Algorithmus bringen
+
+```{r}
+cifar10h %>%
+  group_by(image_filename) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n))
+
+
+Y_cifar10h <- cifar10h %>%
+  mutate(chosen_category = as.factor(chosen_category)) %>%
+  group_by(image_filename, chosen_category, .drop = FALSE) %>%
+  summarise(n = n()) %>%
+  pivot_wider(names_from = chosen_category, values_from = n) %>%
+  ungroup() %>%
+  mutate(J = rowSums(dplyr::select(., -image_filename))) %>%
+  filter(J < 100)
+
+# write.csv(Y_cifar10h, file = "../cifar-10h/data/Y_cifar10h.csv", row.names = FALSE)
+  
+```
+
+
+## Results from EM Algorithm
+
+```{r}
+pi <- read_csv("../cifar-10h/data/pi.csv")
+theta <- read_csv("../cifar-10h/data/theta.csv")
+tau <- read_csv("../cifar-10h/data/tau.csv")
+
+pi_slow <- read_csv("../cifar-10h/data/pi_slow.csv")
+theta_slow <- read_csv("../cifar-10h/data/theta_slow.csv")
+tau_slow <- read_csv("../cifar-10h/data/tau_slow.csv")
+
+pi_fast <- read_csv("../cifar-10h/data/pi_fast.csv")
+theta_fast <- read_csv("../cifar-10h/data/theta_fast.csv")
+tau_fast <- read_csv("../cifar-10h/data/tau_fast.csv")
+
+sort_matrix <- function(array) {
+
+  # Sorts an array by the first column.
+  # :param array: array to sort
+  # :return: sorted array, matched index
+  for (col in seq(ncol(array))) {
+    max_ind <- which.max(array[, col])
+    array[c(col, max_ind), ] <- array[c(max_ind, col), ]
+  }
+
+  return(array)
+}
+
+theta <- sort_matrix(as.matrix(theta))
+theta_slow <- sort_matrix(as.matrix(theta_slow))
+theta_fast <- sort_matrix(as.matrix(theta_fast))
+```
+
+```{r}
+
+names(pi) <- names(pi_slow) <- names(pi_fast) <- c("pi")
+colnames(theta) <- colnames(theta_slow) <- colnames(theta_fast) <- Y_cifar10h %>% dplyr::select(-image_filename, -J) %>% names()
+rownames(theta) <- rownames(theta_slow) <- rownames(theta_fast) <- colnames(theta)
+names(tau) <- names(theta)
+```
+
+
+```{r}
+theta_matrix <- function(theta) {
+  prop.table(as.table(theta), margin = 1) %>%
+  as.data.frame() %>%
+  ggplot(aes(x = Var2, y = Var1, fill = sqrt(Freq))) +
+  geom_tile() +
+  scale_fill_gradient(low = "white", high = "orange") +
+  labs(
+    y = "True Category",
+    x = "Chosen Category",
+    fill = "Proportion"
+  ) + 
+  scale_y_discrete(limits = rev) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  # add the value of the proportion on the tile
+  geom_text(aes(label = scales::percent(round(Freq, 3))), size = 3) +
+  theme(legend.position = "none")
+}
+
+theta_matrix(theta)
+theta_matrix(theta_slow)
+theta_matrix(theta_fast)
+
+
+(prop.table(table(cifar10h[cifar10h$reaction_time > 2000,]$true_category, cifar10h[cifar10h$reaction_time > 2000,]$chosen_category), margin = 1) - prop.table(as.table(theta_slow), margin = 1)) %>%
+  as.data.frame() %>%
+  mutate(Freq_color = sign(Freq) * sqrt(abs(Freq))) %>%
+  ggplot(aes(x = Var2, y = Var1, fill = Freq)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "red", high = "blue", mid = "white", midpoint = 0.00) +
+  labs(
+    y = "True Category",
+    x = "Chosen Category",
+    fill = "Proportion"
+  ) + 
+  scale_y_discrete(limits = rev) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  # add the value of the proportion on the tile
+  geom_text(aes(label = scales::percent(round(Freq, 3))), size = 3) +
+  theme(legend.position = "none")
+
+(prop.table(table(cifar10h[cifar10h$reaction_time <= 2000,]$true_category, cifar10h[cifar10h$reaction_time <= 2000,]$chosen_category), margin = 1) - prop.table(as.table(theta_fast), margin = 1)) %>%
+  as.data.frame() %>%
+  mutate(Freq_color = sign(Freq) * sqrt(abs(Freq))) %>%
+  ggplot(aes(x = Var2, y = Var1, fill = Freq)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "red", high = "blue", mid = "white", midpoint = 0.00) +
+  labs(
+    y = "True Category",
+    x = "Chosen Category",
+    fill = "Proportion"
+  ) + 
+  scale_y_discrete(limits = rev) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  # add the value of the proportion on the tile
+  geom_text(aes(label = scales::percent(round(Freq, 3))), size = 3) +
+  theme(legend.position = "none")
+
+(prop.table(table(cifar10h$true_category, cifar10h$chosen_category), margin = 1) - prop.table(as.table(theta), margin = 1)) %>%
+  as.data.frame() %>%
+  mutate(Freq_color = sign(Freq) * sqrt(abs(Freq))) %>%
+  ggplot(aes(x = Var2, y = Var1, fill = Freq)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "red", high = "blue", mid = "white", midpoint = 0.00) +
+  labs(
+    y = "True Category",
+    x = "Chosen Category",
+    fill = "Proportion"
+  ) + 
+  scale_y_discrete(limits = rev) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  # add the value of the proportion on the tile
+  geom_text(aes(label = scales::percent(round(Freq, 3))), size = 3) +
+  theme(legend.position = "none")
+
+```
+
+
+
+```{r}
+labels <- sample(1:10, 10000, replace = TRUE)
+
+label_indices <- vector(mode = "list", length = length(unique(labels)))
+for(i in unique(labels)) {
+  label_indices[[i]] <- sample(which(labels == i), 10)
+}
+
 
 ```
 

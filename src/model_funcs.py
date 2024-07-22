@@ -1,4 +1,5 @@
 from src.utils import common, list_dict_data_tool
+#from utils import common, list_dict_data_tool
 from scipy.stats import multinomial, dirichlet
 import numpy as np
 import pandas as pd
@@ -217,6 +218,20 @@ def tolerance_sort(array, tolerance, reverse=False):
     matched_index = [np.where(np.all(array == x, axis=1))[0][0] for x in array_sorted]
     return array_sorted, matched_index
 
+def sort_matrix(array):
+    """
+    Sorts an array by the first column.
+    :param array: array to sort
+    :return: sorted array, matched index
+    """
+    array = np.copy(array)  # Create a copy of the array to avoid modifying the original
+
+    for col in range(array.shape[1]):
+        max_ind = np.argmax(array[:, col])
+        # Swap the rows
+        array[[col, max_ind], :] = array[[max_ind, col], :]
+
+    return array
 
 def max_posterior_label(tau):
     """
