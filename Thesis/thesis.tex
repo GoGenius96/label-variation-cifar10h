@@ -1,0 +1,291 @@
+\documentclass[12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{pgffor}
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage{tabularray}
+\usepackage{color}
+\usepackage{alltt}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{yhmath}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{multirow}
+\usepackage{pdfpages}
+\usepackage{datetime}
+
+\input{shortcuts.tex}
+
+\usepackage{longtable}
+\usepackage{booktabs}
+
+\newcommand{\minimage}[2]{%
+  \includegraphics[width=0.08\textwidth]{../figs/cifar_images_examples/#1_#2.png}%
+}
+
+\newcommand{\minimagerow}[1]{
+  \minimage{#1}{0} & \minimage{#1}{1} & \minimage{#1}{2} & \minimage{#1}{3} & \minimage{#1}{4} & \minimage{#1}{5} & \minimage{#1}{6} & \minimage{#1}{7} & \minimage{#1}{8} & \minimage{#1}{9}    
+}
+
+\newcommand*{\vertbar}{\rule[-1ex]{0.5pt}{2.5ex}}
+\newcommand*{\horzbar}{\rule[.5ex]{2.5ex}{0.5pt}}
+
+
+\newcommand{\mytitle}{Quantifying Labelling Uncertainty in Image Data}
+\newcommand{\myname}{\large Eugen Gorich}
+\newcommand{\mysupervisor}{Prof. Dr. Göran Kauermann, Cornelia Gruber, Katharina Hechinger}
+
+\newcommand{\thesuffix}[1]{%
+  \ifnum#1=1 st%
+  \else\ifnum#1=2 nd%
+  \else\ifnum#1=3 rd%
+  \else th%
+  \fi\fi\fi}
+
+% Manually define the date format with the ordinal suffix
+\newcommand{\mydate}{%
+  \the\day\thesuffix{\day}~\ifcase\month\or
+  January\or February\or March\or April\or May\or June\or July\or August\or
+  September\or October\or November\or December\fi, \number\year}
+
+\usepackage[a4paper, width = 160mm, top = 35mm, bottom = 30mm, 
+bindingoffset = 0mm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage{xcolor}
+\usepackage[round, comma]{natbib}
+\usepackage{fancyhdr}
+\newcommand{\changefont}{%
+    \fontsize{8}{11}\selectfont
+}
+\hypersetup{
+  colorlinks = true,
+  linkcolor = black,
+  urlcolor = black,
+  citecolor = black}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyhead[R]{\changefont{\mytitle}}
+\fancyfoot{}
+\fancyfoot[R]{\thepage}
+\setlength{\headheight}{14.5pt}
+\setlength{\parindent}{0pt}
+\interfootnotelinepenalty = 10000
+
+% ------------------------------------------------------------------------------
+% MAIN -------------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+% FRONT PAGE -------------------------------------------------------------------
+ 
+\begin{titlepage}
+\begin{center}
+    
+\LARGE
+Bachelor's Thesis
+
+\vspace{0.5cm}
+      
+\rule{\textwidth}{1.5pt}
+\LARGE
+\textbf{\mytitle}
+\rule{\textwidth}{1.5pt}
+   
+\vspace{0.5cm}
+      
+\large
+Department of Statistics \\
+Ludwig-Maximilians-Universität München
+
+\vfill
+
+\Large
+\textbf{\myname}
+
+\vfill
+
+\large
+
+Munich, the \mydate
+      
+\vfill
+
+\includegraphics[width = 0.4\textwidth]{../figs/sigillum.png}
+
+\vfill
+
+\normalsize
+Submitted in fulfillment of the requirements for the degree of B. Sc.
+\\
+Supervised by \mysupervisor
+
+\end{center}
+\end{titlepage}
+
+% CONTENTS ---------------------------------------------------------------------
+
+\pagenumbering{Roman}
+\newpage
+\begin{abstract}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus
+nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt.
+Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc
+ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam
+nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies
+tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus
+nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt.
+Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc
+ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam
+nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies
+tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus
+nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt.
+
+\end{abstract}
+\newpage
+\section*{Acknowledgement}
+I would like to take this opportunity to thank all those who have supported me
+in the time of my Bachelor's thesis.\bigskip
+
+First and foremost, I would like to thank my supervisor Prof. Dr. Göran Kauermann
+and my advisors Cornelia Gruber and Katharina Hechinger for their guidance and
+for providing me with a topic that fit my character and interests so well. Their
+support, critique and fast responses have been of much help to me.\bigskip
+
+Furthermore, I would like to thank my friends, Jan Anders, Michael Speckbacher,
+Philip Studener, Juliet Fleischer, Yichen Han, Justin Lampman, Cosima Fröhner,
+Omaima Mossadeq, Helena Veit and many others, for their support and for being
+there for me when I needed a break from my work and for their time in which they
+listened to me going over my ideas and thoughts for my thesis. Those discussions
+have often helped me to clarify my thoughts and to find new ideas.\bigskip
+
+Lastly, I would like to thank my wonderful partner Sophie Hopp for her support,
+her patience and her love. Without her, I would not have been able to finish my
+thesis in time. Probably, I would not even have started it yet. Her love and
+support have been invalueable to me and I am very grateful for that.
+
+\newpage
+\tableofcontents
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% listoffigures ----------------------------------------------------------------
+% ------------------------------------------------------------------------------
+
+% \setcounter{page}{3} % CHANGE
+
+\listoffigures
+\input{Chapter/List of figures.tex}
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% listoftables -----------------------------------------------------------------
+% ------------------------------------------------------------------------------
+
+\listoftables
+\input{Chapter/List of tables.tex}
+
+\newpage
+
+% CHAPTERS ---------------------------------------------------------------------
+
+\pagenumbering{arabic}
+    
+\section{Introduction}
+\label{intro}
+\input{Chapter/Introduction.tex}
+\newpage
+
+\section{Data}
+\label{Data}
+\input{Chapter/Data.tex}
+\newpage
+
+\section{Modelling Labelling Uncertainty}
+\label{uncertainty_estimation}
+\input{Chapter/Uncertainty Estimation.tex}
+\newpage
+
+% \section{Sources of Uncertainty}
+% \label{uncertainty_sources}
+% \input{Chapter/Sources of Uncertainty.tex}
+% \newpage
+
+% \section{Discussion}
+% \label{conclusion}
+% \input{Chapter/Discussion.tex}
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% APPENDIX ---------------------------------------------------------------------
+% ------------------------------------------------------------------------------
+    
+\pagenumbering{Roman}
+
+\setcounter{page}{5} % CHANGE
+
+\appendix
+
+\section{Appendix}
+\label{app}
+\input{Chapter/Appendix A.tex}
+\newpage
+
+% \section{Electronic Appendix}
+% \label{el_app}
+
+
+% Data, code and illustrations are available in electronic form. \bigskip
+
+% \input{Chapter/Appendix B.tex}
+\newpage
+
+% ------------------------------------------------------------------------------
+% BIBLIOGRAPHY -----------------------------------------------------------------
+% ------------------------------------------------------------------------------
+
+\RaggedRight
+\bibliography{Bachelorthesis}
+\bibliographystyle{dcu}
+\newpage
+% ------------------------------------------------------------------------------
+% DECLARATION OF AUTHORSHIP-----------------------------------------------------
+% ------------------------------------------------------------------------------
+\Large
+\noindent
+\textbf{Declaration of authorship} 
+\vspace{0.5cm}
+\noindent
+\normalsize
+
+I hereby declare that the report submitted is my own unaided work. All direct 
+or indirect sources used are acknowledged as references. I am aware that the 
+Thesis in digital form can be examined for the use of unauthorized aid and in 
+order to determine whether the report as a whole or parts incorporated in it may 
+be deemed as plagiarism. For the comparison of my work with existing sources I 
+agree that it shall be entered in a database where it shall also remain after 
+examination, to enable comparison with future Theses submitted. Further rights 
+of reproduction and usage, however, are not granted here. This paper was not 
+previously presented to another examination board and has not been published.
+\\
+
+\vspace{1cm}
+\textcolor{orange}{Munich, \mydate} \\
+
+\vspace{3cm}
+
+\noindent\rule{0.5\textwidth}{0.4pt} \\
+
+\textcolor{orange}{\myname}
+
+\end{document}

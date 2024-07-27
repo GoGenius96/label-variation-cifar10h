@@ -1,0 +1,196 @@
+We assume that we have a setting, in which we have images that are ought to be
+labelled. The annotator has to choose the label from a rather small set of
+predefined labels. We assume that the annotator is not perfect and that there is
+some uncertainty in the labelling process. This uncertainty can arise from
+various sources such as ambiguity in the data, subjective interpretation by the
+annotator, and noise in the labelling process. We further assume that there is
+an unknown underlying ground truth to every image. Those scenarios might arise in
+real-world applications, like
+\begin{itemize}
+    \item medical imaging: classify images of X-rays or MRIs into different medical conditions
+    \item wildlife monitoring: classify images of animals into different species
+    \item quality control in manufacturing: classify images of products into different quality categories
+    \item agriculture: classify images of crops into different growth or health stages
+    \item environmental monitoring: classify images of landscapes into different local climate zones
+\end{itemize}
+
+We base our methodology on the work of
+\cite{hechingerCategorisingWorldLocal2024}, who used a Bayesian Latent Class
+Mixture Model to quantify the labelling uncertainty. The estimation of
+the parameters are done by using a Stochastic Expectation-Maximization
+algorithm.
+
+\subsection{Bayesian Latent Class Mixture Model}
+\label{BLCMM}
+
+% Latent classes are subgroups within a population that are not directly observed. In our
+% case, the population is the set of all images and the latent classes are the
+% true categories of the images. Each image belongs to exactly one latent class, which
+% is (assumed to be) unknown. Furthermore, we assume that the observed given labels come
+% from a mixture of the different distributions, based on the latent class of the
+% image. This means, that each class has its own parameters, that determine the
+% probability of observing a certain label, given the latent class. Using bayesian
+% methods, we can estimate the parameters of the models by specifying prior
+% distributions for the parameters and use the observed data to update the
+% prior distributions to posterior distributions.\bigskip
+
+Let $i$ with $i = 1, \ldots, n$ be the index of the images and $j$ with $j = 1,
+\ldots, J$ be the index of the annotators. We denote the label that the
+annotator $j$ assigns to the image $i$ by $V^{(i)}_j$, with $V^{(i)}_j \in \{1,
+\ldots, K\}$, where $K$ is the number of classes. This leads to the definition
+of the accumulated votes of all annotators per image $i$ as $\bY^{(i)} :=
+(Y_1^{(i)}, \ldots, Y_K^{(i)})$, with $Y_k^{(i)} := \sum_{j=1}^{J^{(i)}}
+I(V^{(i)}_j = k)$, $I(\cdot)$ being the indicator function and $J^{(i)}$ being
+the number of annotators that labelled the image $i$. We will refer to
+$\bY^{(i)}$ as the vote distribution of image $i$.\bigskip
+
+We assume, that each image $i$ comes from a latent class, i.e. the image $i$
+belongs to a true category $Z^{(i)}$, with $Z^{(i)} \in \{1, \ldots, K\}$ which
+is unknown (latent) and define $\bZ^{(i)}$ as the one-hot encoded vector of
+$Z^{(i)}$, i.e. $\bZ^{(i)} = (Z_1^{(i)}, \dots, Z_K^{(i)}) = (I(Z^{(i)} = 1), \ldots, I(Z^{(i)} = K))$. Using
+this notation, we formulate our model as follows:
+\begin{align}
+    \bZ^{(i)} &\sim \text{Multi}(\bpi, 1), i.i.d. \quad \text{with} \quad \bpi = (\pi_1, \ldots, \pi_K) \quad \text{and} \quad \sum_{k=1}^K \pi_k = 1, \label{eq:1} \\
+    \bY^{(i)} | Z^{(i)} &\sim \text{Multi}(\btheta_{Z^{(i)}}, J^{(i)}) \quad \text{with} \quad \btheta_z = (\theta_{z1}, \ldots, \theta_{zK}) \quad \text{and} \quad \sum_{k=1}^K \theta_{zk} = 1. \label{eq:2}
+\end{align}
+We call $\pi_k$ the prior probability of class $k$, i.e. the probability that an
+image belongs to class $k$ without knowing anything about the image. The vector
+$\btheta_z$ contains the probabilities $\theta_{zk}, k = 1,\dots,K$ of the
+annotators assigning the label $k$ to an image of class $z$. We can write the
+$\btheta_k$ vectors as rows of a matrix $\Theta$, where $\Theta := (\btheta_1,
+\ldots, \btheta_K) = 
+\begin{pmatrix}
+    \horzbar & \btheta_1 & \horzbar \\
+             & \vdots    &          \\
+    \horzbar & \btheta_K & \horzbar \end{pmatrix}$, which we call the confusion
+matrix. In Figure \ref{fig:confusion_matrix} we have seen an example of this
+confusion matrix.
+Given a latent class $Z^{(i)}$ and the confusion matrix $\Theta$, we have a
+specific distribution for the votes $\bY^{(i)}$, i.e. the observed given labels
+come from a mixture of different distributions, based on the latent class of the
+image. We obtain the likelihood contribution of the image $i$ through
+\begin{equation}
+    \P(\bY^{(i)}; \bpi, \Theta) = \sum_{z=1}^K \P(\bY^{(i)} | Z^{(i)} = z; \Theta) \P(Z^{(i)} = z; \bpi) = \sum_{z=1}^K \pi_z \P(\bY^{(i)}; \btheta_z).
+\end{equation}
+In order to estimate the parameters $\pi$ and $\Theta$, we use the Stochastic
+Expectation Maximization algorithm, which is described in the following section.
+
+\subsection{Stochastic Expectation Maximization Algorithm}
+\label{SEM}
+
+Using the Expectation Maximization algorithm (\cite
+{dempsterMaximumLikelihoodIncomplete1977}), we can estimate the parameters of
+the model. The EM algorithm is an iterative method that alternates between the
+E-step and the M-step. In the E-step, we compute the expected value of
+$\bZ^{(i)}$ given the observed data $\bY^{(i)}$ and the current estimate of the
+parameters $\hbpi$ and $\hTheta$. This results in a complete dataset, that
+can then be used to estimate the best parameters in the M-step. The new estimates
+of the parameters are then used in the next iteration of the E-step.
+
+The stochastic expectation maximization (SEM) algorithm
+(\cite{celeuxStochasticVersionsEm1996}) is a stochastic version of the EM
+algorithm, which is especially useful, when one is also interesed in the
+uncertainty of the estimates. The SEM algorithm is based on the idea of the EM
+algorithm, but instead of computing the expected value of $\bZ^{(i)}$, it
+samples $\bZ^{(i)}$ from the posterior distribution.\bigskip
+
+The SEM algorithm works as follows:
+\begin{enumerate}
+    \item Initialize the parameters $\hbpi_0$ and $\hTheta_0$. If no prior
+    knowledge is available, one can initialize $\hbpi_0 = (\frac{1}{K}, \ldots, \frac{1}{K})$ and
+    draw $\hTheta_0$ randomly from a Dirichlet distribution with parameters $K$ and $\alpha =
+    (2K, \ldots, 2K)$.
+
+    \item Repeat for $t = 0, \ldots, T$:
+    \begin{enumerate}
+        \item E-Step: Compute
+        \begin{align}
+            \htau_{z,t}^{(i)} = \P(Z_{t}^{(i)} = z|
+        \bY^{(i)}; \hbpi_{t}, \hTheta_{t}) = \frac{\hbpi_{z,t} \P(\bY^{(i)};
+        \hbtheta_{z,t})}{\sum_{z' = 1}^K \hbpi_{z',t} \P(\bY^{(i)};
+        \hbtheta_{z',t})}. \label{eq:tau}
+        \end{align}
+        Use the $\hbtau_t^{(i)}$ to randomly sample
+        $\bZ_{t}^{(i)} ~ \sim \text{Multi}(\hbtau_t^{(i)}, 1)$ for all $i = 1,\dots, n$.
+        
+        \item Update the parameter estimates $\hbpi$ and $\hTheta$ using the sampled
+        $\bZ^{(i)}$. We use the MLE for $\hbpi$ and $\hTheta$ to update the estimates. The
+        MLE for $\hbpi$ is given by
+        \begin{align}
+            \hbpi_{t+1} &= \frac{1}{n} \sumin \bZ_k^{(i)} \label{eq:pi_mle} \\
+            \htheta_{zk,t+1} &= \frac{\sumin I(Z_t^{(i)} = z) Y_k^{(i)}}{\sumin I(Z_t^{(i)} = z) J^{(i)}}.\label{eq:theta_mle}
+        \end{align}
+    \end{enumerate}
+    \item Compute the final estimates $\hbpi, \hTheta$ and $\hbtau$, by
+        averaging over the samples. Note, that we discard the first $t_0$ samples
+        to avoid the burn-in phase, where the algorithm has not yet converged to
+        the true distribution.
+        \begin{align}
+            \hbpi &= \frac{1}{T-t_0} \sum_{t=t_0 + 1}^T \hbpi_t \\
+            \hTheta &= \frac{1}{T-t_0} \sum_{t=t_0 + 1}^T \hTheta_t \\
+            \hbtau^{(i)} &= \frac{1}{T-t_0} \sum_{t=t_0 + 1}^T \hbtau_t^{(i)}.
+        \end{align}
+\end{enumerate}
+
+The equations above can be interpreted as follows: 
+\begin{itemize}
+    \item Equation \ref{eq:tau} computes the posterior probability that
+    the image $i$ belongs to class $z$, given the observed votes $\bY^{(i)}$ and
+    current estimates of the parameters $\hbpi_t$ and $\hTheta_t$.
+    \item Equation \ref{eq:pi_mle} computes the relative frequency of the latent
+    classes.
+    \item Equation \ref{eq:theta_mle} computes how many images of latent class
+    $z$ have been labelled with label $k$, compared to the total number of votes
+    that the latent class $z$ received. This can also be expressed in matrix
+    notation, see Appendix \ref{app} equation \ref{eq:theta_mle_matrix}.
+\end{itemize}
+
+Mixture models usually have an identifiability problem, i.e. the latent classes
+are not uniquely identifiable. This means, that we don't know which latent class
+$z = 1,\dots,K$ corresponds to which label $k \in \{\text{airplane},
+\text{automobile}, \dots, \text{truck}\}$. To solve this problem, we can use the
+fact that $$\P(Z^{(i)} = z| V^{(i)} = k) \propto \P(V^{(i)} = k| Z^{(i)} = z)
+\P(Z^{(i)} = z)$$ and use the estimated confusion matrix $\hTheta$ and the
+estimated latent class probabilities $\hbpi$ to compute the posterior
+probabilities $\P(Z^{(i)} = z| V^{(i)} = k)$ for all $z = 1,\dots,K$ and $k =
+1,\dots,K$. Based on that, we can then assign the labels to the latent classes
+and permute the rows of the confusion matrix $\hTheta$ for better interpretability.\bigskip
+
+% In our case, it is sufficient to sort the rows of $\hTheta$ such that the highest
+% value in each row is on the diagonal. In generell, the label switching problem is
+% a common problem in Bayesian Mixture Models, where the labels of the latent
+% classes are interchangeable.\bigskip
+
+
+Using the chain of estimates $(\hbpi_t)_{t = t_0,\dots,T}$, $(\hTheta_t)_{t =
+t_0,\dots,T}$ and $(\hbtau_t)_{t = t_0,\dots,T}$ and the samples of the latent
+classes $(\bZ_t^{(i)})_{t = t_0,\dots,T}$ that are produced by the SEM
+algorithm, we can estimate the uncertainty of the estimates. We are especially
+interested in the uncertainty of the confusion matrix $\hTheta$. For that we
+rewrite the matrix $\hTheta$ as a vector $\hbvtheta$ as defined below. Note
+that the matrix $\hTheta$ is of full rank, because the rows of $\hTheta$ are
+probability vectors that sum up to one. To account for this constraint, we
+drop the last column of $\hTheta$ and denote the resulting matrix as $\hTheta_{-K}$
+and its rows as $\hbtheta_{z, -K}$ for $z = 1,\dots,K$. Using this notation, we
+can define the vector $\hbvtheta$ as
+\begin{equation}
+    \hbvtheta = (\hbtheta_{1, -K}, \ldots, \hbtheta_{K, -K})^\top = (\htheta_{1, 1}, \ldots, \htheta_{1, K-1}, \ldots, \htheta_{K, 1}, \ldots, \htheta_{K, K-1})^\top.
+\end{equation}
+
+The estimate of the covariance matrix of $\hbvtheta$, denoted by
+$\widehat{\V}(\hbvtheta)$, is given below. The formulas are derived in
+\cite{littleBayesMultipleImputation2002}, chapter 10.2. and
+\cite{hechingerCategorisingWorldLocal2024}.
+
+\begin{align}
+    &\widehat{\V}(\hbtheta_{z, -K} | Z) = \frac{diag(\hbtheta_{z, -K}) - \hbtheta_{z, -K} \cdot \hbtheta_{z, -K}^\top}{\sumin I(Z^{(i)} = z)}\\
+    &V_t := blockdiag(\widehat{\V}(\hbtheta_{1, -K} | Z_t), \ldots, \widehat{\V}(\hbtheta_{K, -K} | Z_t)) \\ \label{eq:V_t}
+    &\widehat{\V}(\hbvtheta) = \frac{1}{T-t_0} \sum_{t=t_0 + 1}^T V_t + \frac{1}{T-t_0-1} \sum_{t=t_0 + 1}^T (\hbvtheta_t - \hbvtheta)(\hbvtheta_t - \hbvtheta)^\top
+\end{align}
+
+Note that given the true latent classes $Z$, the probability vectors
+$\hbtheta_{z, -K}$ and $\hbtheta_{z', -K}$ are independent for $z \neq z'$. Hence,
+the matrix $V_t$ in equation \ref{eq:V_t} is block-diagonal.\bigskip
+
+
+

@@ -1,0 +1,47 @@
+\begin{thebibliography}{xx}
+
+\harvarditem[Battleday et~al.]{Battleday, Peterson \harvardand\ Griffiths}{2020}{battledayCapturingHumanCategorization2020a}
+Battleday, R.~M., Peterson, J.~C. \harvardand\ Griffiths, T.~L.  \harvardyearleft 2020\harvardyearright .
+\newblock Capturing human categorization of natural images by combining deep networks and cognitive models, {\em Nature Communications} {\bf 11}(1):~5418.
+
+\harvarditem[Celeux et~al.]{Celeux, Chauveau \harvardand\ Diebolt}{1996}{celeuxStochasticVersionsEm1996}
+Celeux, {\relax Gilles}., Chauveau, {\relax Didier}. \harvardand\ Diebolt, {\relax Jean}.  \harvardyearleft 1996\harvardyearright .
+\newblock Stochastic versions of the em algorithm: An experimental study in the mixture case, {\em Journal of Statistical Computation and Simulation} {\bf 55}(4):~287--314.
+
+\harvarditem{{\em {{CIFAR-10}} and {{CIFAR-100}} Datasets}}{n.d.}{CIFAR10CIFAR100Datasetsb}
+{\em {{CIFAR-10}} and {{CIFAR-100}} Datasets}  \harvardyearleft n.d.\harvardyearright .
+\newblock https://www.cs.toronto.edu/{\textasciitilde}kriz/cifar.html.
+\newblock Accessed: 2024-07-13.
+
+\harvarditem[Dempster et~al.]{Dempster, Laird \harvardand\ Rubin}{1977}{dempsterMaximumLikelihoodIncomplete1977}
+Dempster, A.~P., Laird, N.~M. \harvardand\ Rubin, D.~B.  \harvardyearleft 1977\harvardyearright .
+\newblock Maximum {{Likelihood}} from {{Incomplete Data Via}} the {{EM Algorithm}}, {\em Journal of the Royal Statistical Society: Series B (Methodological)} {\bf 39}(1):~1--22.
+
+\harvarditem[Hechinger et~al.]{Hechinger, Zhu \harvardand\ Kauermann}{2024}{hechingerCategorisingWorldLocal2024}
+Hechinger, K., Zhu, X.~X. \harvardand\ Kauermann, G.  \harvardyearleft 2024\harvardyearright .
+\newblock Categorising the world into local climate zones: Towards quantifying labelling uncertainty for machine learning models, {\em Journal of the Royal Statistical Society Series C: Applied Statistics} {\bf 73}(1):~143--161.
+
+\harvarditem{{\em Jcpeterson/Cifar-10h: {{Original}} Dataset Release for {{CIFAR-10H}}}}{n.d.}{JcpetersonCifar10hOriginal}
+{\em Jcpeterson/Cifar-10h: {{Original}} Dataset Release for {{CIFAR-10H}}}  \harvardyearleft n.d.\harvardyearright .
+\newblock https://github.com/jcpeterson/cifar-10h?tab=readme-ov-file.
+\newblock Accessed: 2024-07-17.
+
+\harvarditem{Krizhevsky}{2009}{Krizhevsky2009LearningML}
+Krizhevsky, A.  \harvardyearleft 2009\harvardyearright .
+\newblock Learning multiple layers of features from tiny images.
+\newline\harvardurl{https://api.semanticscholar.org/CorpusID:18268744}
+
+\harvarditem{{\em Papers with {{Code}} - {{CIFAR-10 Dataset}}}}{2024}{PapersCodeCIFAR10}
+{\em Papers with {{Code}} - {{CIFAR-10 Dataset}}}  \harvardyearleft 2024\harvardyearright .
+\newblock https://paperswithcode.com/dataset/cifar-10.
+\newblock Accessed: 2024-07-22.
+
+\harvarditem[Peterson et~al.]{Peterson, Battleday, Griffiths \harvardand\ Russakovsky}{2019}{petersonHumanUncertaintyMakes2019}
+Peterson, J.~C., Battleday, R.~M., Griffiths, T.~L. \harvardand\ Russakovsky, O.  \harvardyearleft 2019\harvardyearright .
+\newblock Human uncertainty makes classification more robust,  (arXiv:1908.07086).
+
+\harvarditem[Torralba et~al.]{Torralba, Fergus \harvardand\ Freeman}{2008}{torralba80MillionTiny2008}
+Torralba, A., Fergus, R. \harvardand\ Freeman, W.  \harvardyearleft 2008\harvardyearright .
+\newblock 80 {{Million Tiny Images}}: {{A Large Data Set}} for {{Nonparametric Object}} and {{Scene Recognition}}, {\em IEEE Transactions on Pattern Analysis and Machine Intelligence} {\bf 30}(11):~1958--1970.
+
+\end{thebibliography}
