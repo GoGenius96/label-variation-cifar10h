@@ -1,4 +1,0 @@
-\contentsline {figure}{\numberline {1}{\ignorespaces The classes of the CIFAR-10 dataset with ten example images per class.}}{2}{figure.caption.4}%
-\contentsline {figure}{\numberline {2}{\ignorespaces Number of observations per chosen category. The blue horizontal line indicates the 51'420 observations per true category, so that we can see, which categories are over- and underrepresented.}}{3}{figure.caption.6}%
-\contentsline {figure}{\numberline {3}{\ignorespaces Distribution of the number of unique chosen labels per image for each true category. Unambiguous images have received only one label, while ambiguous images have received multiple labels. The more labels an image has received, the more ambiguous the image is. }}{4}{figure.caption.7}%
-\contentsline {figure}{\numberline {4}{\ignorespaces Example of an ambiguous image. The image shows a car, but the chosen categories are \textit {automobile} and \textit {truck}.}}{4}{figure.caption.8}%
