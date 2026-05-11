@@ -4,7 +4,7 @@
 We will analyse labelling uncertainty in the context of image classification
 using the \textit{CIFAR-10H} dataset. The dataset is based on the
 \textit{CIFAR-10} (Canadian Institute for Advanced Research, 10 classes)
-dataset, first introduced in \cite{Krizhevsky2009LearningML}, which is a
+dataset, first introduced by \cite{Krizhevsky2009LearningML}, which is a
 benchmark dataset for image classification and is itself a subset of the larger
 \textit{80 million tiny images} dataset, see \cite{torralba80MillionTiny2008}.
 The \textit{CIFAR-10} dataset consists of 60'000 images of size $32 \times 32$
@@ -19,7 +19,7 @@ makes the dataset challenging for image classification and introduces ambiguity
 in the labelling process. Third, the dataset contains images that are close to
 the category boundaries, which further introduces ambiguity in the labelling
 process. This is in contrast with other datasets that are more carefully created
-such that each image is selected to be a unabiguously of a certain
+such that each image is selected to be unambiguously of a certain
 category.\bigskip
 
 \begin{figure}[ht]
@@ -56,8 +56,8 @@ image was labelled 51 times, with the minimum number of labels being 50 and the
 maximum number of labels being 63. The relevant features of the
 \textit{CIFAR-10H} dataset are described in Table \ref{tab:cifar10hvariables}.
 The study design is described in more detail in
-\cite{petersonHumanUncertaintyMakes2019}, section 4.2. Note, that the images
-where collected based on searching the web, using search engines. Thus, the true
+\cite{petersonHumanUncertaintyMakes2019}, section 4.2. Note that the images
+were collected based on searching the web, using search engines. Thus, the true
 label is not necessarily the object that is displayed in the image, but the term
 that was used to search for the image, see \cite{torralba80MillionTiny2008}. For
 our purposes, we will assume that the true label is the object that is displayed
@@ -110,11 +110,11 @@ author's GitHub repository \cite{JcpetersonCifar10hOriginal}.
 \label{desc_stats}
 
 As mentioned in the previous section, the \textit{CIFAR-10H} dataset is balanced
-with respect to the true categories. This means, that we have 51'420
+with respect to the true categories. This means that we have 51'420
 observations per true category. But the number of observations per chosen
 category is not balanced, see Figure \ref{fig:chosen_category}, e.g. the
 category \textit{deer} is underrepresented, while the category \textit{dog} is
-overrepresented. The question that arrises is, whether chosen categories are
+overrepresented. The question that arises is, whether chosen categories are
 usually correct or not and where the votes of overrepresented categories come
 from.
 
@@ -132,29 +132,32 @@ many unique labels each image has received. If an image is unambiguous, then all
 annotators should agree on the label of the image. If an image is ambiguous,
 then there are multiple possible labels for the image. In Figure
 \ref{fig:consensus_distribution}, we can see the distribution of the number of
-labels per image for each true category. We can see, that in all categories,
-50\% of the images have received at most 2 labels. We can also see, that in
+labels per image for each true category. We can see that in all categories,
+50\% of the images have received at most 2 labels. We can also see that in
 almost all categories, 25\% of the images have received 3 labels or more. This
-indicates that a lot of images are unambiguous, but also that a considerable amount of
-images are ambiguous. In Figure \ref{fig:ambiguous_image}, we can see an examples of ambiguous and
-unambiguous images as well as their respective vote distribution.\bigskip
+indicates that a lot of images are unambiguous, but also that a considerable
+amount of images are ambiguous. In Figure \ref{fig:ambiguous_image}, we can see
+examples of ambiguous and unambiguous images as well as their respective vote
+distribution.\bigskip
 
 Another possibility to check the ambiguity of the images is to check the
-entropy of the vote distribution. The entropy of an image is defined as
+entropy of the vote distribution. The entropy of an image $i$ is defined as
 \begin{equation}
-  H = - \sum_{i = 1}^{10} p_{i} \log_2(p_{i}),
-  \text{ with } p_{i} = \frac{n_{i}}{N},
+  H_{prior}^{(i)} = - \sum_{z = 1}^{10} p_{z}^{(i)} \log_2(p_{z}^{(i)}),
+  \text{ with } p_{z}{(i)} = \frac{n_{z}^{(i)}}{J^{(i)}},
   \label{eq:entropy}
 \end{equation}
-and $n_{i}$ is the number of votes for category $i$ and $N$ is the total number
-of votes that the image received. A high entropy indicates that the image is
-ambiguous, while a low entropy, i.e. close to 0, indicates that the image is
-unambiguous. In Figure \ref{fig:entropy_distribution}, that is replicated from
+and $n_{z}^{(i)}$ is the number of votes for category $z$ in image $i$ and
+$J^{(i)}$ is the total number of votes that the image $i$ received. A high
+entropy indicates that the image is ambiguous, while a low entropy, i.e. close
+to 0, indicates that the image is unambiguous. In Figure
+\ref{fig:entropy_distribution} that is replicated from
 \cite{battledayCapturingHumanCategorization2020a}, we can see the distribution
 of the entropy and can again confirm that most images are rather unambiguous,
-but that a considerable amount of images are ambiguous. Note, that the entropy
-can be at most $3.33$, because that's the value under the assumption that
-the votes for a certain image are uniformly distributed.
+but also that a considerable amount of images are ambiguous\footnote{Note that
+the entropy here can be at most $3.33$, because that's the value under the
+assumption that the votes for a certain image are uniformly distributed among
+the 10 possible categories.}.\bigskip
 
 \begin{figure}[ht]
   \centering
@@ -168,13 +171,13 @@ the votes for a certain image are uniformly distributed.
 
 This ambiguity in the labelling process is also reflected in the confusion
 matrix in Figure \ref{fig:confusion_matrix}. The confusion matrix shows the
-propotion of votes for each chosen category given the true category. We can see
+proportion of votes for each chosen category given the true category. We can see
 that the diagonal of the confusion matrix is not 1, because the annotators do
-mislabel the image. We can also see that the confusion matrix is not symmetric,
+mislabel the images. We can also see that the confusion matrix is not symmetric,
 which indicates that the mislabelling is not symmetric, i.e. the annotators do
 not confuse the categories in both directions equally. For example, a deer is
 more often confused with a horse than a horse is confused with a deer. We can
-also see, that the confusion matrix is almost sparse, i.e. there are a lot of
+also see that the confusion matrix is almost sparse, i.e. there are many
 values that are almost 0, which indicates that the annotators do not confuse the
 categories randomly, but that there are some categories that are more often
 confused with each other. One goal of this thesis is to estimate the confusion
@@ -210,8 +213,8 @@ ambiguous images, i.e. with more labelling uncertainty, than others.
     \includegraphics[width = 0.2\textwidth]{../figs/cifar_images_examples/ambiguous_image2.png} & \includegraphics[width = 0.2\textwidth]{../figs/cifar_images_examples/ambiguous_image1.png} & \includegraphics[width = 0.2\textwidth]{../figs/cifar_images_examples/unambiguous_image.png} \\
     \includegraphics[width = 0.3\textwidth]{../figs/ambiguous_image1_dist.png} & \includegraphics[width = 0.3\textwidth]{../figs/ambiguous_image2_dist.png} & \includegraphics[width = 0.3\textwidth]{../figs/unambiguous_image_dist.png} \\
   \end{tabular}
-  \caption{Example of an two ambiguous images and an unambiguous image and their
-  respective vote distribution. The true label of the images are \textit{truck},
+  \caption{Example of two ambiguous images and an unambiguous image and their
+  respective vote distribution. The true labels of the images are \textit{truck},
   \textit{bird} and \textit{ship}, which all received the majority of votes.}
   \label{fig:ambiguous_image}
 \end{figure}
@@ -253,63 +256,76 @@ reaction time is around 1.48 seconds.
 One interesting aspect of the reaction time is the relationship between the
 reaction time and the entropy of the vote distribution. Computing the
 correlation between the reaction time and the entropy of the vote distribution
-on the whole dataset, we get a correlation of $0.0372$. But this correlation is
+on the whole dataset, we get a correlation of $0.0372$. However, this correlation is
 misleading, because we have a lot of outliers in the reaction time, which are
 not necessarily indicative of labelling uncertainty, e.g. the longest observed
 reaction time is around 2.13 hours with an image entropy of 0. We therefore need
-to remove the outliers from the dataset, but it is not clear, how to define an
+to remove the outliers from the dataset. However, it is not clear how to define an
 outlier in this context. In Figure \ref{fig:reaction_time_entropy}, we can see
-the pearson-correlation between the reaction time and the entropy of the vote
+the Pearson correlation between the reaction time and the entropy of the vote
 distribution based on the cutoff-value of the reaction time, beginning at 6
-seconds. We can see, that the correlation is increasing first, up to a value of
+seconds. We can see that the correlation is increasing first, up to a value of
 $0.32$ at $11$ seconds, and then it decreases. Using a threshold of $26$ seconds
 for the reaction time for later analysis seems reasonable, because this is above
 the 99.9\% quantile of the reaction time distribution. This results in a correlation
-of $0.30$ and it is reasonable to assume that that's enough time to label even
+of $0.30$ and it is reasonable to assume that the time is sufficient to label even
 the most ambiguous images.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width = 0.8\textwidth]{../figs/entropy_reaction_time_cor.png}
-  \caption{Pearson-correlation between the reaction time and the entropy of the 
+  \caption{Pearson correlation between the reaction time and the entropy of the 
   vote distribution based on the cutoff-value of the reaction time.}
   \label{fig:reaction_time_entropy}
 \end{figure}
 
 Another interesting aspect of the reaction time is the relationship between the
 reaction time and the correctness of the chosen category. In Figure
-\ref{fig:Reaction_Time_Correct_Guess}, we can the relationship between the
+\ref{fig:Reaction_Time_Correct_Guess}, we can see the relationship between the
 reaction time and the correctness of the chosen category. We can see that for a
-higher reaction time, the probability of a correct guess is becomes lower. This
-will be further investigated in the next sections. For now, this is just a
-indicator, that a higher reaction time might be an indicator for labelling
+higher reaction time, the probability of a correct guess becomes lower. This
+will be further investigated in the next sections. For now, this is just an
+indicator that a higher reaction time might be an indicator of labelling
 uncertainty. The question that arises is, whether the decreased probability of a
-correct guess is due to the fact, that some images are more ambiguous than
+correct guess is due to the fact that some images are more ambiguous than
 others, thus more prone to labelling uncertainty, or whether there are
 annotators that are more prone to labelling uncertainty than others.\bigskip
 
 One issue that may arise in regards to the quality of the data are annotators
 that are not paying attention and are just randomly guessing the labels. This is
-supposed to be controlled for in the study design, by performing so called
-\textit{attetion checks}, where the annotators receive an image with a clear
+supposed to be controlled for in the study design, by performing so-called
+\textit{attention checks}, where the annotators receive an image with a clear
 unambiguous label and are asked to label the image with the correct label. If
 the annotator failed to do so, the annotator was excluded from the study.
 Nonetheless, by random chance, there could still be some annotators that guessed
 the labels correctly and stayed in the study. In Figure
 \ref{fig:elapsed_time_vs_correct}, we can see the total elapsed time, i.e. the
-time that the annotator needed to label all 200 images, for each annotator(in
+time that the annotator needed to label all 200 images, for each annotator (in
 minutes) vs. the proportion of correct guesses. We can see that the proportion
 of correct guesses is almost always above 80\% and that the elapsed time is
 almost always between 5 and 20 minutes. We can also see that the annotators with
-a lower proportion of correct guesses tend to need have a lower total elapsed
+a lower proportion of correct guesses tend to have a lower total elapsed
 time. Especially the annotators with a proportion of correct guesses below 25\%
 were very fast in labelling the images, with an average total elapsed time of
-around 4.6 minutes, which is less than 1.4 seconds per image for all 200 images.
+around 4.6 minutes, which is less than 1.4 seconds per image for all 200 images.\bigskip
+
+Lastly, we show the distribution of the reaction time in all subcategories in
+Figure \ref{fig:subcategories_rt}, ordered by the average reaction time. The
+error bars represent the 95\% confidence interval of the reaction
+time\footnote{As before, observations with a reaction time over $26$ seconds
+were removed.}. This plot shows that there are differences in the reaction time
+between the subcategories. The 5\% quantiles of the reaction time seem to be approx.
+0.9 seconds for all subcategories, but the 95\% quantiles differ a lot between
+the subcategories. This indicates that there is a reasonable minimum time that the
+annotators need to label an image, which is independent of the subcategory, but
+that the maximum time that the annotators need to label an image is dependent on
+the subcategory, or rather some images in those subcategories are more ambiguous
+than others.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width = 0.8\textwidth]{../figs/Reaction_Time_Correct_Guess.png}
-  \caption{Average Reaction time (in seconds) for correct and incorrect guesses, based
+  \caption{Average reaction time (in seconds) for correct and incorrect guesses, based
   on a logistic model with reaction time as independent variable. For a higher
   reaction time, the probability of a correct guess is lower.}
   \label{fig:Reaction_Time_Correct_Guess}
@@ -326,8 +342,11 @@ around 4.6 minutes, which is less than 1.4 seconds per image for all 200 images.
   \label{fig:elapsed_time_vs_correct}
 \end{figure}
 
-
-
-
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{../figs/subcategory_rt.png}
+  \caption{The distribution of the reaction time in all subcategories, ordered by the average reaction time.}
+  \label{fig:subcategories_rt}
+\end{figure}
 
 \newpage

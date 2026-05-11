@@ -1,36 +1,51 @@
-Wir haben den Anteil der Off-Label-Behandlungstage an der Gesamtanzahl der
-Behandlungstage pro Patient mit einer Beta-0-1-Inflated Verteilung modelliert.
-Dabei haben wir vier Regressionsmodelle betrachtet, in denen die Variable
-Einrichtung unterschiedlich berücksichtigt wurde. Wir konnten eine schwache
-Assoziation zwischen Diagnose und Off-Label-Proportion nachweisen. Jedoch hatte
-die Diagnose in keinem Modell eine signifikant verschiedene erwartete
-OLU-Proportion im Vergleich zur Referenzdiagnose. Für die Einrichtungsvariable
-konnten wir in den Modellen mit Einrichtung13 und Einrichtung16 eine stark
-signifikante Assoziation nachweisen, für die Modelle mit Einrichtung2 und
-Einrichtung3 jedoch nicht. Insgesamt konnten wir bis auf zwei Ausnahmen im
-Modell16 keine signifikanten Unterschiede zwischen den Einrichtungen zur
-Referenzeinrichtung hinsichtlich der erwarteten OLU-Proportion feststellen. Es
-ist jedoch zu sehen, dass es teilweise große Unterschiede zwischen verschiedenen
-Einrichtungen gibt, jedoch nicht zwischen verschiedenen Settings.\bigskip
 
-Zusätzlich haben wir die Häufigkeit der Off-Label-Anwendungen in den
-verschiedenen Settings und Diagnosen betrachtet. Dabei konnten wir deutliche
-Unterschiede in der relativen Häufigkeit einiger Off-Label-Anwendungen zwischen
-den verschiedenen Settings und Diagnosen feststellen. Die Aussagen zur
-statistischen Signifikanz sind in diesem Kontext jedoch aufgrund der geringen
-Datenlage schwierig und die Ergebnisse sind tendenziell explorativer Natur.\bigskip
+We have modelled the labelling uncertainty and confusion probabilities in the
+labelling process of the \textit{CIFAR-10H} dataset using a Bayesian latent
+class mixture model. The resulting estimated confusion matrix was a very good
+approximation of the true confusion matrix, thus validating the methodology. As
+we have seen, the entropy can be used as a measure of the ambiguity of an image.
+The prior entropy and the posterior entropy distributions of the images show
+different characteristics, which can lead to different interpretations of what
+makes an image ambiguous. We have also seen that the subcategories of the images
+can differ significantly in their inherent image ambiguity. Furthermore, we have
+analysed the time taken by the annotators to label the images and found that
+a higher time taken to label an image is associated with a higher uncertainty in
+the labelling process.\bigskip
 
-Aufgrund des begrenzten Erhebungszeitraums sind die Daten zensiert, was die
-Interpretation der Ergebnisse beeinflussen kann. Zudem liegen nicht ausreichend
-Daten vor, um die Interaktion zwischen Einrichtungen und Diagnosen im Hinblick
-auf Off-Label-Proportion im Modell13 und Modell16 zu untersuchen. Des Weiteren
-fehlen Informationen über mögliche Zusammenhänge oder Abhängigkeiten zwischen
-der Wirkstoffnutzung und Off-Label-Anwendungen. Die Reliabilität der
-Off-Label-Klassifikation bleibt ebenfalls ungeklärt.\bigskip
+This work can be used to improve the machine learning models in the future, by
+incorporating the uncertainty in the labelling process into the training of the
+models. This can be done by using the estimated confusion matrix as prior
+information in the training of the models. This can lead to more robust models
+that are less sensitive to noisy labels. The fact that we built the model based
+on a machine learning benchmark dataset, the \textit{CIFAR-10} dataset, makes
+the results of this work applicable to a wide range of machine learning models.
+The methodology can be extended to other datasets and other labelling processes,
+where the true labels are unknown.\bigskip
 
-Für zukünftige Forschungen bieten sich verschiedene Ansätze an. Es besteht die
-Möglichkeit, den Zusammenhang zwischen Symptomen, Wirkstoffen und Off-Label-Use
-zu untersuchen. Methoden zur Korrektur von zensierten Daten, beispielsweise
-durch die Modellierung der Anwendungsdauer, können angewendet werden. Es wäre
-ebenfalls möglich, konkrete Hypothesen über Off-Label-Anwendungen in zukünftigen
-Studien zu testen und zu untersuchen.
+There are some limitations though. The model is based on the assumption that
+there is a ground truth, i.e. a true labels, which is unknown. This assumption
+may not hold in some cases, where there is just no ground truth. In such cases,
+the model may not be applicable. Furthermore, the model is based on the
+assumption that the images are independent of each other. This may not hold in
+some cases, where the images are correlated. In such cases, the model may not be
+applicable. Another problematic aspect that might occur are numerical
+instabilities or computational limitations in the estimation of the model
+parameters, which can lead to unreliable results. This can result from too many
+latent classes or very small confusion probabilities or too many votes per
+image. In such cases, we have to be careful about the correctness of the
+results. Lastly, the model is based on the assumption that the confusion
+probabilities are constant over time. This may not hold in some cases, where the
+confusion probabilities change over time, due to the annotators getting better
+or worse at labelling the images or due to the images themselves changing over
+time.\bigskip
+
+For future research, it would be interesting to investigate the effect of
+labelling uncertainty on the performance of machine learning models. This can be
+done by comparing the performance of models trained with and without the prior
+information of the estimated confusion matrix. We could extend the work of
+\cite{kollerGoingOneHotEncoding2024} to include the reaction time of the
+annotators as a feature in the model and apply their methodology to the
+\textit{CIFAR-10H} dataset. We could also apply our methodology to other
+datasets, such as the \textit{ImageNet} dataset, and compare the results to those
+obtained with the \textit{CIFAR-10H} dataset, or apply it to datasets
+from other domains, such as medical imaging or quality control in manufacturing.

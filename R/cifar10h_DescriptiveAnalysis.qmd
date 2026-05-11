@@ -92,7 +92,7 @@ prop.table(table(cifar10h$true_category, cifar10h$chosen_category), margin = 1) 
   theme(legend.position = "none")
 ```
 
-On average the annotators correctly guessed the category of the image `r round(mean(cifar10h$correct_guess) * 100, 2)`\% of the time. The most common category chosen by the annotators was the true category of the image. The proportion of correct guesses for each category is shown in the heatmap above. The diagonal of the heatmap shows the proportion of correct guesses for each category.
+On average the annotators correctly guessed the category of the image `r round(mean(cifar10h$correct_guess) * 100, 2)`% of the time. The most common category chosen by the annotators was the true category of the image. The proportion of correct guesses for each category is shown in the heatmap above. The diagonal of the heatmap shows the proportion of correct guesses for each category.
 
 ## Reaction Time
 
@@ -141,7 +141,6 @@ ggplot(df, aes(x = transformed_data, y = original_data)) +
 
 
 ```
-
 
 ```{r}
 # Assuming your data is in a variable called reaction_time
@@ -211,7 +210,6 @@ Y_cifar10h <- cifar10h %>%
   
 ```
 
-
 ## Results from EM Algorithm
 
 ```{r}
@@ -252,7 +250,6 @@ colnames(theta) <- colnames(theta_slow) <- colnames(theta_fast) <- Y_cifar10h %>
 rownames(theta) <- rownames(theta_slow) <- rownames(theta_fast) <- colnames(theta)
 names(tau) <- names(theta)
 ```
-
 
 ```{r}
 theta_matrix <- function(theta) {
@@ -331,8 +328,6 @@ theta_matrix(theta_fast)
 
 ```
 
-
-
 ```{r}
 labels <- sample(1:10, 10000, replace = TRUE)
 
@@ -343,4 +338,3 @@ for(i in unique(labels)) {
 
 
 ```
-

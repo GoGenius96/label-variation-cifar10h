@@ -9,7 +9,7 @@
     \label{fig:subcategory_distinct_image_dist}
 \end{figure}
 
-\subsection{Uncertainty Estimation}
+\subsection{Modelling Labelling Uncertainty}
 We can express the MLE of the confusion matrix $\Theta$ from equation
 \ref{eq:theta_mle} using matrix notation. We define the matrix $\bY$ as the $n
 \times K$ matrix with the vote distributions $\bY^{(i)}$ as rows. We define the
@@ -21,3 +21,11 @@ matrix $\Theta$ as
     \hTheta = \bZ \bY \cdot \text{diag}(\bZ \bJ)^{-1}
     \label{eq:theta_mle_matrix}
 \end{equation}
+
+\subsection{Sources of Uncertainty}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width = \textwidth]{../figs/confusion_matrices_comparison_subcategories_entropy.png}
+    \caption{Sources of uncertainty in the labelling process.}
+    \label{fig:confusion_matrices_comparison_subcategories_entropy}
+\end{figure}

@@ -17,6 +17,10 @@ Celeux, {\relax Gilles}., Chauveau, {\relax Didier}. \harvardand\ Diebolt, {\rel
 Dempster, A.~P., Laird, N.~M. \harvardand\ Rubin, D.~B.  \harvardyearleft 1977\harvardyearright .
 \newblock Maximum {{Likelihood}} from {{Incomplete Data Via}} the {{EM Algorithm}}, {\em Journal of the Royal Statistical Society: Series B (Methodological)} {\bf 39}(1):~1--22.
 
+\harvarditem[Fahrmeir et~al.]{Fahrmeir, Kneib, Lang \harvardand\ Marx}{2013}{fahrmeirRegressionModelsMethods2013}
+Fahrmeir, L., Kneib, T., Lang, S. \harvardand\ Marx, B.  \harvardyearleft 2013\harvardyearright .
+\newblock {\em Regression: {{Models}}, {{Methods}} and {{Applications}}}, Springer Berlin Heidelberg, Berlin, Heidelberg.
+
 \harvarditem[Hechinger et~al.]{Hechinger, Zhu \harvardand\ Kauermann}{2024}{hechingerCategorisingWorldLocal2024}
 Hechinger, K., Zhu, X.~X. \harvardand\ Kauermann, G.  \harvardyearleft 2024\harvardyearright .
 \newblock Categorising the world into local climate zones: Towards quantifying labelling uncertainty for machine learning models, {\em Journal of the Royal Statistical Society Series C: Applied Statistics} {\bf 73}(1):~143--161.
@@ -26,10 +30,27 @@ Hechinger, K., Zhu, X.~X. \harvardand\ Kauermann, G.  \harvardyearleft 2024\harv
 \newblock https://github.com/jcpeterson/cifar-10h?tab=readme-ov-file.
 \newblock Accessed: 2024-07-17.
 
+\harvarditem[Koller et~al.]{Koller, Kauermann \harvardand\ Zhu}{2024}{kollerGoingOneHotEncoding2024}
+Koller, C., Kauermann, G. \harvardand\ Zhu, X.~X.  \harvardyearleft 2024\harvardyearright .
+\newblock Going {{Beyond One-Hot Encoding}} in {{Classification}}: {{Can Human Uncertainty Improve Model Performance}} in {{Earth Observation}}?, {\em IEEE Transactions on Geoscience and Remote Sensing} {\bf 62}:~1--11.
+
 \harvarditem{Krizhevsky}{2009}{Krizhevsky2009LearningML}
 Krizhevsky, A.  \harvardyearleft 2009\harvardyearright .
 \newblock Learning multiple layers of features from tiny images.
 \newline\harvardurl{https://api.semanticscholar.org/CorpusID:18268744}
+
+\harvarditem{Little \harvardand\ Rubin}{2002}{littleBayesMultipleImputation2002}
+Little, R. J.~A. \harvardand\ Rubin, D.~B.  \harvardyearleft 2002\harvardyearright .
+\newblock Bayes and {{Multiple Imputation}}, {\em Statistical {{Analysis}} with {{Missing Data}}}, John Wiley \& Sons, Ltd, chapter~10, pp.~200--220.
+
+\harvarditem{McLachlan \harvardand\ Peel}{2000}{mclachlanBayesianApproachMixture2000}
+McLachlan, G. \harvardand\ Peel, D.  \harvardyearleft 2000\harvardyearright .
+\newblock Bayesian approach to mixture analysis,  pp.~117--134.
+\newline\harvardurl{https://onlinelibrary.wiley.com/doi/abs/10.1002/0471721182.ch4}
+
+\harvarditem[Nakagawa et~al.]{Nakagawa, Johnson \harvardand\ Schielzeth}{2017}{nakagawaCoefficientDeterminationR22017}
+Nakagawa, S., Johnson, P. C.~D. \harvardand\ Schielzeth, H.  \harvardyearleft 2017\harvardyearright .
+\newblock The coefficient of determination {{R2}} and intra-class correlation coefficient from generalized linear mixed-effects models revisited and expanded, {\em Journal of The Royal Society Interface} {\bf 14}(134):~20170213.
 
 \harvarditem{{\em Papers with {{Code}} - {{CIFAR-10 Dataset}}}}{2024}{PapersCodeCIFAR10}
 {\em Papers with {{Code}} - {{CIFAR-10 Dataset}}}  \harvardyearleft 2024\harvardyearright .

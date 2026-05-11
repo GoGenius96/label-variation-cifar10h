@@ -49,9 +49,9 @@
 
 % Manually define the date format with the ordinal suffix
 \newcommand{\mydate}{%
-  \the\day\thesuffix{\day}~\ifcase\month\or
+  ~\ifcase\month\or
   January\or February\or March\or April\or May\or June\or July\or August\or
-  September\or October\or November\or December\fi, \number\year}
+  September\or October\or November\or December\fi, \the\day\thesuffix{\day} \number\year}
 
 \usepackage[a4paper, width = 160mm, top = 35mm, bottom = 30mm, 
 bindingoffset = 0mm]{geometry}
@@ -113,7 +113,7 @@ Ludwig-Maximilians-Universität München
 
 \large
 
-Munich, the \mydate
+Munich, \mydate
       
 \vfill
 
@@ -135,18 +135,18 @@ Supervised by \mysupervisor
 \newpage
 \begin{abstract}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec purus
-nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt.
-Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc
-ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam
-nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies
-tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus
-nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt.
-Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc
-ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam
-nec purus nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies
-tincidunt. Nullam nec purus nec nunc ultricies tincidunt. Nullam nec purus
-nec nunc ultricies tincidunt. Nullam nec purus nec nunc ultricies tincidunt.
+In this study we aim to quantify the uncertainty in image labelling, a critical
+aspect in the performance of machine learning models. Using the CIFAR-10H
+dataset, which includes human-labelled images with multiple annotations per
+image, we applied a Bayesian Latent Class Mixture Model to estimate the true
+labels and the associated uncertainty. We employed a Stochastic
+Expectation-Maximization algorithm for parameter estimation. Our analysis
+identified significant sources of labelling uncertainty, including image
+ambiguity, subcategory ambiguity, and annotator reaction times. The findings
+highlight the importance of considering different sources of labelling
+uncertainty and show the validity of the proposed methodology by comparing the
+results obtained under the assumption of missing true labels to the results
+obtained with the true labels.
 
 \end{abstract}
 \newpage
@@ -159,17 +159,23 @@ and my advisors Cornelia Gruber and Katharina Hechinger for their guidance and
 for providing me with a topic that fit my character and interests so well. Their
 support, critique and fast responses have been of much help to me.\bigskip
 
-Furthermore, I would like to thank my friends, Jan Anders, Michael Speckbacher,
+Secondly, I would like to thank my friends, Jan Anders, Michael Speckbacher,
 Philip Studener, Juliet Fleischer, Yichen Han, Justin Lampman, Cosima Fröhner,
-Omaima Mossadeq, Helena Veit and many others, for their support and for being
-there for me when I needed a break from my work and for their time in which they
-listened to me going over my ideas and thoughts for my thesis. Those discussions
-have often helped me to clarify my thoughts and to find new ideas.\bigskip
+Omaima Mossadeq, Felipe Gentilini, Helena Veit, Maxim Winter and many others,
+for their support and for being there for me when I needed a break from my work
+and for their time in which they listened to me going over my ideas and thoughts
+for my thesis. Those discussions have often helped me to clarify my thoughts and
+to find new ideas.\bigskip
+
+Furthermore, I would like to thank my family for their support, for always
+being there for me when I needed it and for pushing me to do my best. I know, 
+it took me a bit longer than expected to get to this point, but I am very
+thankful for their patience with me.\bigskip
 
 Lastly, I would like to thank my wonderful partner Sophie Hopp for her support,
 her patience and her love. Without her, I would not have been able to finish my
 thesis in time. Probably, I would not even have started it yet. Her love and
-support have been invalueable to me and I am very grateful for that.
+support have been invaluable to me and I am very grateful for that.
 
 \newpage
 \tableofcontents
@@ -215,14 +221,14 @@ support have been invalueable to me and I am very grateful for that.
 \input{Chapter/Uncertainty Estimation.tex}
 \newpage
 
-% \section{Sources of Uncertainty}
-% \label{uncertainty_sources}
-% \input{Chapter/Sources of Uncertainty.tex}
-% \newpage
+\section{Sources of Uncertainty}
+\label{uncertainty_sources}
+\input{Chapter/Sources of Uncertainty.tex}
+\newpage
 
-% \section{Discussion}
-% \label{conclusion}
-% \input{Chapter/Discussion.tex}
+\section{Discussion}
+\label{conclusion}
+\input{Chapter/Discussion.tex}
 
 \newpage
 
@@ -241,13 +247,13 @@ support have been invalueable to me and I am very grateful for that.
 \input{Chapter/Appendix A.tex}
 \newpage
 
-% \section{Electronic Appendix}
-% \label{el_app}
+\section{Electronic Appendix}
+\label{el_app}
 
 
-% Data, code and illustrations are available in electronic form. \bigskip
+Data, code and illustrations are available in electronic form. \bigskip
 
-% \input{Chapter/Appendix B.tex}
+\input{Chapter/Appendix B.tex}
 \newpage
 
 % ------------------------------------------------------------------------------

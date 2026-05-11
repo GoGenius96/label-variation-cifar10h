@@ -1,29 +1,37 @@
 \subsection*{Data Sets}
-\textbf{Medikamentenverordnung\_Statistik.xlsx} - Enthält die Daten zu den Medikamentenverordnungen. \\
-\textbf{Medikamentenverordnung\_Statistik.Rds} - Aufbereitete Daten zu den Medikamentenverordnungen. \\
-\textbf{Meds\_OLU\_Prop.Rds} - Daten zu den Off-Label-Proportionen. \\
-\textbf{Mittelwert\_differenz\_Dateien} - Diese Dateien enthalten die Mittelwertdifferenzen der Off-Label-Proportionen für verschiedene Kategorien in den 4 verschiedenen Modellen. \\
-\hspace*{5mm} Mittelwert\_differenz\_alter.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_alter2.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_alter3.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_alter13.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_Diagnosen.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_Diagnosen2.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_Diagnosen3.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_Diagnosen13.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_Einrichtungen.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_Einrichtungen2.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_Einrichtungen3.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_Einrichtungen13.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_geschlecht.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_geschlecht2.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_geschlecht3.Rds \\
-\hspace*{5mm} Mittelwert\_differenz\_geschlecht13.Rds \\
+\textbf{cifar-10-batches-py} - CIFAR-10 image data batches. We only use the test batch\\
+\textbf{cifar10h-raw.csv, cifar10h.csv} - Raw and processed CIFAR-10H dataset. \\
+\textbf{Y\_cifar10h.csv} - Aggregated vote distribution for the 10'000 images of the CIFAR-10H dataset. \\
+
+\textbf{theta.csv, theta\_*.csv} - Estimated $\hTheta$ for the different models. \\
+\textbf{pi.csv, pi\_*.csv} - Estimated $\hbpi$ values for the different models. \\
+\textbf{tau.csv, tau\_*.csv} - Estimated $\hbtau$ values for the different models. \\
+\textbf{theta\_old.csv, theta\_old\_*.csv} - Estimated $\hbvtheta$ for the different models. \\
+\textbf{variance\_theta.csv, variance\_theta\_*.csv} - Estimated $\widehat{\V}(\hbvtheta)$ values for the different models. \\
+\textbf{post\_entropy.csv, post\_entropy\_*.csv} - Estimated posterior entropy $H_{post}$ values for the different models. \\
+
+The \textbf{*} in the file names represents the different models. The models are: \\
+\textbf{L} - Slow reaction time. \\
+\textbf{R} - Fast reaction time. \\
+\textbf{S} - Subcategories based on reaction time. \\
+\textbf{Se} - Subcategories based on entropy. \\
+No \textbf{*} - Model on full data set.
+
+\textbf{top10\_entropy.csv} - File names of the images with the top 10 entropy. \\
+\textbf{special\_entropy.csv} - File names of the images with the similar vote distribution but different entropy. \\
 
 
-\subsection*{Codedateien}
-\textbf{data\_cleaning.R} - Skript zur Datenaufbereitung. \\
-\textbf{Datensatz.R} - Code zur Erstellung der Grafiken für das Kapitel Datensatz. \\
-\textbf{OLU\_Proportion.Rmd} - Code zur Erstellung der Grafiken und Tabellen für das Kapitel Off-Label-Proportion. \\
-\textbf{Bootstrap.Rmd} - Code zur Berechnung der Mittelwertdifferenzen für die Off-Label-Proportionen. \\
-\textbf{OLU\_Anwendungen.Rmd} - Code zur Erstellung der Grafiken  und Tabellen für das Kapitel Off-Label-Anwendung. \\
+\subsection*{R Files}
+\textbf{Data\_Cleaning.R} - Script for data preparation.\\
+\textbf{Descriptive\_Statistics.R} - Code for creating the graphics for the chapter data. \\
+\textbf{Image\_Ambiguity.R} - Code for the results in the chapter on image ambiguity. \\
+\textbf{Subcategory\_Ambiguity.R} - Code for the results in the chapter on subcategory ambiguity. \\
+\textbf{Reaction\_Time\_Ambiguity.R} - Code for the results in the chapter on reaction time effect. \\
+\textbf{Model\_RT.R} - Code for the reaction time GLMM. \\
+
+\subsection*{Python Files}
+\textbf{model\_funcs.py} - Script for data preparation and sem algorithm\\
+\textbf{cifar\_images.ipynb} - Script for extracting the images from the CIFAR-10 dataset.\\
+\textbf{Image\_Ambiguity.ipynb} - SEM Code for the results in the chapter on image ambiguity. \\
+\textbf{Subcategory\_Ambiguity.ipynb} - SEM Code for the results in the chapter on subcategory ambiguity. \\
+\textbf{Reaction\_Time\_Ambiguity.ipynb} - SEM Code for the results in the chapter on reaction time effect. \\
